@@ -53,7 +53,6 @@
             text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
         }
 
-        /* Estilos del contador */
         #countdown-container {
             background: rgba(255, 255, 255, 0.05);
             padding: 30px;
@@ -158,8 +157,8 @@
 </head>
 <body>
 
-    <!-- PANTALLA 0: EL RELOJ (Cuenta regresiva) -->
-    <div id="screen0" class="screen active">
+    <!-- PANTALLA 0: EL RELOJ (Cuenta regresiva) - Oculto para la prueba -->
+    <div id="screen0" class="screen">
         <h1>Aún no es momento...</h1>
         <p class="message" style="font-size: 1.2rem;">Esta sorpresa se abrirá en:</p>
         <div id="countdown-container">
@@ -167,8 +166,8 @@
         </div>
     </div>
 
-    <!-- PANTALLA 1: LA PREGUNTA -->
-    <div id="screen1" class="screen">
+    <!-- PANTALLA 1: LA PREGUNTA - Activa para la prueba -->
+    <div id="screen1" class="screen active">
         <h1>¿Me amas?</h1>
         
         <div class="btn-group" id="btnGroup">
@@ -229,8 +228,6 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN DE LA FECHA (Formato: Año-Mes-DíaTHora:Minuto:Segundo)
-        // Está configurado para el 10 de octubre de 2026 a las 00:00:00
         const fechaObjetivo = new Date("2026-10-10T00:00:00").getTime();
 
         const screen0 = document.getElementById('screen0');
@@ -239,24 +236,23 @@
         const screen3 = document.getElementById('screen3');
         const timerElement = document.getElementById('timer');
 
-        // LÓGICA DEL RELOJ
         const actualizarReloj = setInterval(() => {
             const ahora = new Date().getTime();
             const distancia = fechaObjetivo - ahora;
 
             if (distancia <= 0) {
-                // Si ya llegó la fecha, detenemos el reloj y mostramos la Pantalla 1
                 clearInterval(actualizarReloj);
-                screen0.classList.remove('active');
-                screen1.classList.add('active');
+                // Si la prueba está activa, no interferimos con la pantalla 1
+                if(!screen2.classList.contains('active') && !screen3.classList.contains('active')) {
+                    screen0.classList.remove('active');
+                    screen1.classList.add('active');
+                }
             } else {
-                // Calculamos tiempo restante
                 const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
                 const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
                 const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
 
-                // Mostramos el tiempo con ceros a la izquierda si es necesario
                 timerElement.innerHTML = 
                     (dias > 0 ? dias + "d " : "") + 
                     horas.toString().padStart(2, '0') + "h " + 
@@ -265,8 +261,6 @@
             }
         }, 1000);
 
-
-        // --- LÓGICA DE LOS BOTONES (Igual que antes) ---
         let intentosNo = 0;
         const btnSi = document.getElementById('btnSi');
         const btnNo = document.getElementById('btnNo');
