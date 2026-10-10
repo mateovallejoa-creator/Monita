@@ -35,7 +35,7 @@
             max-width: 600px;
             padding: 20px;
             box-sizing: border-box;
-            overflow-y: auto; /* Permite hacer scroll en pantallas largas */
+            overflow-y: auto; 
         }
 
         .active {
@@ -250,13 +250,21 @@
         <button id="btnSiguiente8" class="btn-siguiente">Siguiente</button>
     </div>
 
-    <!-- PANTALLA 9: LA FOTO Y EL TEXTO FINAL -->
-    <div id="screen9" class="screen" style="justify-content: flex-start; padding-top: 40px;">
+    <!-- PANTALLA 9: SOLO LA FOTO Y BOTÓN SIGUIENTE -->
+    <div id="screen9" class="screen">
         <div class="photo-frame">
-            <img src="foto.jpg?v=4" alt="Nosotros">
+            <img src="foto.jpg?v=5" alt="Nosotros">
+        </div>
+        <button id="btnSiguiente9" class="btn-siguiente">Siguiente</button>
+    </div>
+
+    <!-- PANTALLA 10: FOTO, TEXTO FINAL Y BOTÓN FIN -->
+    <div id="screen10" class="screen" style="justify-content: flex-start; padding-top: 40px;">
+        <div class="photo-frame">
+            <img src="foto.jpg?v=5" alt="Nosotros">
         </div>
         
-        <div class="poem" style="margin-bottom: 40px;">
+        <div class="poem" style="margin-bottom: 20px;">
             Una vez mas te repito que te amo tengo tantas ganas de verte y darte un abrazo enoooooooorme a la distancia te mando uno, perdon si esto es crinjoso jajaja pero es trabajo honesto.
 
             Espero opiniones y quise que el poema sea emotivo porque queria que llores pero ajajaja espero te guste, lo unico hecho con ia de todo esto es ayudame a hacer la pagina web jajajaa poema sin IA lo juro solo yo investigando y tomé como referencia a Mario Benedetti uwu.
@@ -265,6 +273,8 @@
 
             TE AMO &lt;3
         </div>
+        
+        <button id="btnFin" class="btn-siguiente">Fin &lt;3</button>
     </div>
 
     <!-- MÚSICA DE FONDO -->
@@ -287,6 +297,7 @@
         const screen7 = document.getElementById('screen7');
         const screen8 = document.getElementById('screen8');
         const screen9 = document.getElementById('screen9');
+        const screen10 = document.getElementById('screen10');
 
         const actualizarReloj = setInterval(() => {
             const ahora = new Date().getTime();
@@ -294,7 +305,6 @@
 
             if (distancia <= 0) {
                 clearInterval(actualizarReloj);
-                // Mantiene el bypass del reloj activo si estás en pruebas
                 if(!screen2.classList.contains('active') && !screen3.classList.contains('active') && !screen4.classList.contains('active')) {
                     screen0.classList.remove('active');
                     screen1.classList.add('active');
@@ -344,6 +354,8 @@
         const btnSiguiente6 = document.getElementById('btnSiguiente6');
         const btnSiguiente7 = document.getElementById('btnSiguiente7');
         const btnSiguiente8 = document.getElementById('btnSiguiente8');
+        const btnSiguiente9 = document.getElementById('btnSiguiente9');
+        const btnFin = document.getElementById('btnFin');
         const miMusica = document.getElementById('miMusica');
 
         btnSi.addEventListener('click', () => {
@@ -360,7 +372,7 @@
             btnSiguiente1.style.display = 'block';
         });
 
-        // Transiciones entre pantallas
+        // Transiciones
         btnSiguiente1.addEventListener('click', () => {
             screen1.classList.remove('active');
             screen2.classList.add('active');
@@ -369,7 +381,7 @@
         btnSiguiente2.addEventListener('click', () => {
             screen2.classList.remove('active');
             screen3.classList.add('active');
-            miMusica.play(); // Inicia la música
+            miMusica.play(); 
             screen3.scrollTop = 0; 
         });
 
@@ -401,7 +413,17 @@
         btnSiguiente8.addEventListener('click', () => {
             screen8.classList.remove('active');
             screen9.classList.add('active');
-            screen9.scrollTop = 0; // Asegura que empiece desde arriba para ver la foto
+        });
+
+        btnSiguiente9.addEventListener('click', () => {
+            screen9.classList.remove('active');
+            screen10.classList.add('active');
+            screen10.scrollTop = 0; 
+        });
+
+        btnFin.addEventListener('click', () => {
+            // Un pequeño efecto final: al presionar Fin <3 desaparece el botón y queda la foto y el texto.
+            btnFin.style.display = 'none';
         });
     </script>
 </body>
