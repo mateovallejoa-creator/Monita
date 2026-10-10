@@ -23,7 +23,7 @@
             min-height: 100vh;
             text-align: center;
             overflow: hidden;
-            transition: background 0.5s ease; /* Transición suave para el fondo final */
+            transition: background 0.5s ease;
         }
 
         .screen {
@@ -160,8 +160,8 @@
 </head>
 <body>
 
-    <!-- PANTALLA 0: EL RELOJ (Oculto para pruebas) -->
-    <div id="screen0" class="screen">
+    <!-- PANTALLA 0: EL RELOJ (Vuelve a ser la primera pantalla) -->
+    <div id="screen0" class="screen active">
         <h1>Aún no es momento...</h1>
         <p class="message" style="font-size: 1.2rem;">Esta sorpresa se abrirá en:</p>
         <div id="countdown-container">
@@ -170,7 +170,7 @@
     </div>
 
     <!-- PANTALLA 1: LA PREGUNTA -->
-    <div id="screen1" class="screen active">
+    <div id="screen1" class="screen">
         <h1>¿Me amas?</h1>
         <div class="btn-group" id="btnGroup">
             <button id="btnSi" style="position: relative; left: -60px;">Sí</button>
@@ -306,7 +306,7 @@
 
             if (distancia <= 0) {
                 clearInterval(actualizarReloj);
-                if(!screen2.classList.contains('active') && !screen3.classList.contains('active') && !screen4.classList.contains('active')) {
+                if(screen0.classList.contains('active')) {
                     screen0.classList.remove('active');
                     screen1.classList.add('active');
                 }
@@ -423,11 +423,11 @@
         });
 
         btnFin.addEventListener('click', () => {
-            // Elimina el fondo estrellado y pone la pantalla en negro puro
             document.body.style.backgroundImage = 'none';
             document.body.style.backgroundColor = '#000000';
             
-            // Reemplaza todo el contenido con el mensaje final centrado
+            window.close();
+            
             document.body.innerHTML = `
                 <div style="display: flex; justify-content: center; align-items: center; height: 100vh; width: 100%;">
                     <h1 style="color: #a881d6; font-size: 1.8rem; font-family: 'Courier New', Courier, monospace;">
