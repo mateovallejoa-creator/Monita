@@ -160,7 +160,7 @@
 </head>
 <body>
 
-    <!-- PANTALLA 0: EL RELOJ (Vuelve a ser la primera pantalla) -->
+    <!-- PANTALLA 0: EL RELOJ (Activo de nuevo) -->
     <div id="screen0" class="screen active">
         <h1>Aún no es momento...</h1>
         <p class="message" style="font-size: 1.2rem;">Esta sorpresa se abrirá en:</p>
@@ -284,7 +284,8 @@
     </audio>
 
     <script>
-        const fechaObjetivo = new Date("2026-10-10T00:00:00").getTime();
+        // Formato seguro: new Date(Año, Mes (0-11), Día, Hora, Minuto, Segundo)
+        const fechaObjetivo = new Date(2026, 9, 10, 0, 0, 0).getTime();
         const timerElement = document.getElementById('timer');
 
         // Referencias a pantallas
