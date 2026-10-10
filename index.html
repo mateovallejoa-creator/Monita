@@ -92,6 +92,7 @@
             transition: transform 0.2s, background-color 0.3s;
             box-shadow: 0 0 15px rgba(168, 129, 214, 0.4);
             z-index: 10;
+            margin-top: 20px;
         }
 
         button:hover {
@@ -102,12 +103,13 @@
         #btnNo {
             position: absolute;
             transition: top 0.2s ease, left 0.2s ease;
+            margin-top: 0;
         }
 
         .photo-frame {
-            width: 250px;
-            height: 250px;
-            margin: 0 auto 40px auto;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
             border: 2px solid #a881d6;
             border-radius: 12px;
             background-color: rgba(255, 255, 255, 0.05);
@@ -142,22 +144,18 @@
             font-size: 1.1rem;
             line-height: 1.8;
             white-space: pre-line; 
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             text-shadow: 1px 1px 4px rgba(0,0,0,0.9);
         }
 
         audio {
-            width: 100%;
-            max-width: 300px;
-            border-radius: 30px;
-            box-shadow: 0 0 15px rgba(168, 129, 214, 0.2);
-            margin-bottom: 40px;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- PANTALLA 0: EL RELOJ (Cuenta regresiva) - Oculto para la prueba -->
+    <!-- PANTALLA 0: EL RELOJ (Oculto para pruebas) -->
     <div id="screen0" class="screen">
         <h1>Aún no es momento...</h1>
         <p class="message" style="font-size: 1.2rem;">Esta sorpresa se abrirá en:</p>
@@ -166,32 +164,25 @@
         </div>
     </div>
 
-    <!-- PANTALLA 1: LA PREGUNTA - Activa para la prueba -->
+    <!-- PANTALLA 1: LA PREGUNTA (Activa para pruebas) -->
     <div id="screen1" class="screen active">
         <h1>¿Me amas?</h1>
-        
         <div class="btn-group" id="btnGroup">
-            <button id="btnSi" style="position: relative; left: -60px;">Sí</button>
+            <button id="btnSi" style="position: relative; left: -60px; margin-top:0;">Sí</button>
             <button id="btnNo" style="left: calc(50% + 10px);">No</button>
         </div>
-        
-        <p id="msgRespuesta" class="message" style="display: none;"></p>
+        <p id="msgRespuesta" class="message" style="display: none; margin-top:20px;"></p>
         <button id="btnSiguiente1" style="display: none;">Siguiente</button>
     </div>
 
-    <!-- PANTALLA 2: EL MENSAJE PREVIO -->
+    <!-- PANTALLA 2 -->
     <div id="screen2" class="screen">
         <p class="message">Esta vez quise hacer algo diferente,<br>espero que te guste &lt;3&lt;3&lt;3</p>
         <button id="btnSiguiente2">Siguiente</button>
     </div>
 
-    <!-- PANTALLA 3: EL POEMA Y LA MÚSICA -->
+    <!-- PANTALLA 3: SOLO EL POEMA -->
     <div id="screen3" class="screen">
-        <div class="photo-frame">
-            <!-- Enlace directo a la foto para asegurar que cargue en todos los dispositivos -->
-            <img src="https://mateovallejoa-creator.github.io/Monita/foto.jpg" alt="Nosotros">
-        </div>
-
         <div class="poem">
             Elegí algo diferente,
             no sé cuándo, pero te elegí a ti.
@@ -222,20 +213,67 @@
             Eres diferente, eres para mí. 
             Te amo. &lt;3
         </div>
-
-        <audio id="miMusica" loop>
-            <source src="cancion.mp3" type="audio/mpeg">
-        </audio>
+        <button id="btnSiguiente3">Siguiente</button>
     </div>
+
+    <!-- PANTALLA 4 -->
+    <div id="screen4" class="screen">
+        <p class="message">¿Te gustó?</p>
+        <button id="btnSiguiente4">Siguiente</button>
+    </div>
+
+    <!-- PANTALLA 5 -->
+    <div id="screen5" class="screen">
+        <p class="message">Aún me falta darte regalo y mandarte algo uwu</p>
+        <button id="btnSiguiente5">Siguiente</button>
+    </div>
+
+    <!-- PANTALLA 6 -->
+    <div id="screen6" class="screen">
+        <p class="message">Espero que estés pasando súper bien en la playa desgraciada</p>
+        <button id="btnSiguiente6">Siguiente</button>
+    </div>
+
+    <!-- PANTALLA 7 -->
+    <div id="screen7" class="screen">
+        <p class="message">...</p>
+        <button id="btnSiguiente7">Siguiente</button>
+    </div>
+
+    <!-- PANTALLA 8 -->
+    <div id="screen8" class="screen">
+        <p class="message">ya ya ahora si jajajaja</p>
+        <button id="btnSiguiente8">Siguiente</button>
+    </div>
+
+    <!-- PANTALLA 9: SOLO LA FOTO -->
+    <div id="screen9" class="screen">
+        <div class="photo-frame">
+            <!-- Nuevo truco de caché para forzar la foto -->
+            <img src="foto.jpg?v=2" alt="Nosotros">
+        </div>
+    </div>
+
+    <!-- MÚSICA DE FONDO -->
+    <audio id="miMusica" loop>
+        <source src="cancion.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         const fechaObjetivo = new Date("2026-10-10T00:00:00").getTime();
+        const timerElement = document.getElementById('timer');
 
+        // Referencias a pantallas
         const screen0 = document.getElementById('screen0');
         const screen1 = document.getElementById('screen1');
         const screen2 = document.getElementById('screen2');
         const screen3 = document.getElementById('screen3');
-        const timerElement = document.getElementById('timer');
+        const screen4 = document.getElementById('screen4');
+        const screen5 = document.getElementById('screen5');
+        const screen6 = document.getElementById('screen6');
+        const screen7 = document.getElementById('screen7');
+        const screen8 = document.getElementById('screen8');
+        const screen9 = document.getElementById('screen9');
 
         const actualizarReloj = setInterval(() => {
             const ahora = new Date().getTime();
@@ -243,8 +281,8 @@
 
             if (distancia <= 0) {
                 clearInterval(actualizarReloj);
-                // Si la prueba está activa, no interferimos con la pantalla 1
-                if(!screen2.classList.contains('active') && !screen3.classList.contains('active')) {
+                // Mantiene el bypass del reloj activo si estás en pruebas
+                if(!screen2.classList.contains('active') && !screen3.classList.contains('active') && !screen4.classList.contains('active')) {
                     screen0.classList.remove('active');
                     screen1.classList.add('active');
                 }
@@ -262,15 +300,13 @@
             }
         }, 1000);
 
+        // Lógica Botón NO escapista
         let intentosNo = 0;
         const btnSi = document.getElementById('btnSi');
         const btnNo = document.getElementById('btnNo');
         const btnGroup = document.getElementById('btnGroup');
         const msgRespuesta = document.getElementById('msgRespuesta');
-        const btnSiguiente1 = document.getElementById('btnSiguiente1');
-        const btnSiguiente2 = document.getElementById('btnSiguiente2');
-        const miMusica = document.getElementById('miMusica');
-
+        
         const escaparBoton = () => {
             intentosNo++;
             const maxX = window.innerWidth - btnNo.offsetWidth - 20;
@@ -286,6 +322,17 @@
         btnNo.addEventListener('mouseover', escaparBoton);
         btnNo.addEventListener('click', escaparBoton); 
 
+        // Botones de Siguiente
+        const btnSiguiente1 = document.getElementById('btnSiguiente1');
+        const btnSiguiente2 = document.getElementById('btnSiguiente2');
+        const btnSiguiente3 = document.getElementById('btnSiguiente3');
+        const btnSiguiente4 = document.getElementById('btnSiguiente4');
+        const btnSiguiente5 = document.getElementById('btnSiguiente5');
+        const btnSiguiente6 = document.getElementById('btnSiguiente6');
+        const btnSiguiente7 = document.getElementById('btnSiguiente7');
+        const btnSiguiente8 = document.getElementById('btnSiguiente8');
+        const miMusica = document.getElementById('miMusica');
+
         btnSi.addEventListener('click', () => {
             btnGroup.style.display = 'none';
             btnNo.style.display = 'none'; 
@@ -300,6 +347,7 @@
             btnSiguiente1.style.display = 'block';
         });
 
+        // Transiciones entre pantallas
         btnSiguiente1.addEventListener('click', () => {
             screen1.classList.remove('active');
             screen2.classList.add('active');
@@ -308,7 +356,37 @@
         btnSiguiente2.addEventListener('click', () => {
             screen2.classList.remove('active');
             screen3.classList.add('active');
-            miMusica.play();
+            miMusica.play(); // Inicia la música aquí
+        });
+
+        btnSiguiente3.addEventListener('click', () => {
+            screen3.classList.remove('active');
+            screen4.classList.add('active');
+        });
+
+        btnSiguiente4.addEventListener('click', () => {
+            screen4.classList.remove('active');
+            screen5.classList.add('active');
+        });
+
+        btnSiguiente5.addEventListener('click', () => {
+            screen5.classList.remove('active');
+            screen6.classList.add('active');
+        });
+
+        btnSiguiente6.addEventListener('click', () => {
+            screen6.classList.remove('active');
+            screen7.classList.add('active');
+        });
+
+        btnSiguiente7.addEventListener('click', () => {
+            screen7.classList.remove('active');
+            screen8.classList.add('active');
+        });
+
+        btnSiguiente8.addEventListener('click', () => {
+            screen8.classList.remove('active');
+            screen9.classList.add('active');
         });
     </script>
 </body>
