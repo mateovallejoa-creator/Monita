@@ -96,7 +96,7 @@
             transition: transform 0.2s, background-color 0.3s;
             box-shadow: 0 0 15px rgba(168, 129, 214, 0.4);
             z-index: 10;
-            flex-shrink: 0; /* Evita que el botón se encoja */
+            flex-shrink: 0;
         }
 
         button:hover {
@@ -106,7 +106,7 @@
 
         .btn-siguiente {
             margin-top: 20px;
-            margin-bottom: 40px; /* Da espacio extra abajo para celulares */
+            margin-bottom: 40px; 
         }
 
         #btnNo {
@@ -135,7 +135,6 @@
             object-fit: cover;
         }
 
-        /* Estilos de la barra de scroll */
         .screen::-webkit-scrollbar {
             width: 8px;
         }
@@ -218,7 +217,6 @@
             Eres diferente, eres para mí. 
             Te amo. &lt;3
         </div>
-        <!-- Botón ajustado para que no se esconda -->
         <button id="btnSiguiente3" class="btn-siguiente">Siguiente</button>
     </div>
 
@@ -252,11 +250,20 @@
         <button id="btnSiguiente8" class="btn-siguiente">Siguiente</button>
     </div>
 
-    <!-- PANTALLA 9: SOLO LA FOTO -->
-    <div id="screen9" class="screen">
+    <!-- PANTALLA 9: LA FOTO Y EL TEXTO FINAL -->
+    <div id="screen9" class="screen" style="justify-content: flex-start; padding-top: 40px;">
         <div class="photo-frame">
-            <!-- Forzamos de nuevo la carga por si acaso -->
-            <img src="foto.jpg?v=3" alt="Nosotros">
+            <img src="foto.jpg?v=4" alt="Nosotros">
+        </div>
+        
+        <div class="poem" style="margin-bottom: 40px;">
+            Una vez mas te repito que te amo tengo tantas ganas de verte y darte un abrazo enoooooooorme a la distancia te mando uno, perdon si esto es crinjoso jajaja pero es trabajo honesto.
+
+            Espero opiniones y quise que el poema sea emotivo porque queria que llores pero ajajaja espero te guste, lo unico hecho con ia de todo esto es ayudame a hacer la pagina web jajajaa poema sin IA lo juro solo yo investigando y tomé como referencia a Mario Benedetti uwu.
+
+            Que tengas una linda noche, disfruta y una vez mas
+
+            TE AMO &lt;3
         </div>
     </div>
 
@@ -363,7 +370,6 @@
             screen2.classList.remove('active');
             screen3.classList.add('active');
             miMusica.play(); // Inicia la música
-            // Asegura que al entrar al poema, la vista empiece desde arriba
             screen3.scrollTop = 0; 
         });
 
@@ -395,6 +401,7 @@
         btnSiguiente8.addEventListener('click', () => {
             screen8.classList.remove('active');
             screen9.classList.add('active');
+            screen9.scrollTop = 0; // Asegura que empiece desde arriba para ver la foto
         });
     </script>
 </body>
