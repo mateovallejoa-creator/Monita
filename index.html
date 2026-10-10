@@ -168,7 +168,7 @@
         </div>
     </div>
 
-    <!-- PANTALLA 1: LA PREGUNTA (Activa para pruebas) -->
+    <!-- PANTALLA 1: LA PREGUNTA -->
     <div id="screen1" class="screen active">
         <h1>¿Me amas?</h1>
         <div class="btn-group" id="btnGroup">
@@ -422,8 +422,10 @@
         });
 
         btnFin.addEventListener('click', () => {
-            // Un pequeño efecto final: al presionar Fin <3 desaparece el botón y queda la foto y el texto.
-            btnFin.style.display = 'none';
+            // Intenta cerrar la pestaña automáticamente
+            window.close();
+            // Plan B: Si el celular lo bloquea, pone la pantalla negra con un mensaje final
+            document.body.innerHTML = '<h1 style="color: #a881d6; margin-top: 45vh;">Ya puedes cerrar la pestaña ❤️</h1>';
         });
     </script>
 </body>
