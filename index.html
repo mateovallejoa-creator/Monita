@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegí algo diferente</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0d041a;
+            background-image: 
+                radial-gradient(circle at center, #2b0f4c 0%, #0d041a 100%),
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 4px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 3px);
+            background-size: 100% 100%, 550px 550px, 350px 350px;
+            background-position: 0 0, 0 0, 40px 60px;
+            color: #e0e0e0;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .active {
+            display: flex;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+        }
+
+        .message {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+        }
+
+        /* Estilos del contador */
+        #countdown-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #a881d6;
+            box-shadow: 0 0 20px rgba(168, 129, 214, 0.4);
+            margin-top: 20px;
+        }
+
+        .timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px #a881d6;
+        }
+
+        .btn-group {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 12px 35px;
+            font-size: 1.2rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            color: #fff;
+            background-color: #7b4397;
+            border: 2px solid #a881d6;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+            box-shadow: 0 0 15px rgba(168, 129, 214, 0.4);
+            z-index: 10;
+        }
+
+        button:hover {
+            background-color: #a881d6;
+            transform: scale(1.05);
+        }
+
+        #btnNo {
+            position: absolute;
+            transition: top 0.2s ease, left 0.2s ease;
+        }
+
+        .photo-frame {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 40px auto;
+            border: 2px solid #a881d6;
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(168, 129, 214, 0.4);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #screen3 {
+            max-height: 90vh;
+            overflow-y: auto;
+            justify-content: flex-start;
+        }
+        
+        #screen3::-webkit-scrollbar {
+            width: 8px;
+        }
+        #screen3::-webkit-scrollbar-thumb {
+            background: #a881d6;
+            border-radius: 4px;
+        }
+
+        .poem {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            white-space: pre-line; 
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.9);
+        }
+
+        audio {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 30px;
+            box-shadow: 0 0 15px rgba(168, 129, 214, 0.2);
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PANTALLA 0: EL RELOJ (Cuenta regresiva) -->
+    <div id="screen0" class="screen active">
+        <h1>Aún no es momento...</h1>
+        <p class="message" style="font-size: 1.2rem;">Esta sorpresa se abrirá en:</p>
+        <div id="countdown-container">
+            <div id="timer" class="timer">Cargando...</div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 1: LA PREGUNTA -->
+    <div id="screen1" class="screen">
+        <h1>¿Me amas?</h1>
+        
+        <div class="btn-group" id="btnGroup">
+            <button id="btnSi" style="position: relative; left: -60px;">Sí</button>
+            <button id="btnNo" style="left: calc(50% + 10px);">No</button>
+        </div>
+        
+        <p id="msgRespuesta" class="message" style="display: none;"></p>
+        <button id="btnSiguiente1" style="display: none;">Siguiente</button>
+    </div>
+
+    <!-- PANTALLA 2: EL MENSAJE PREVIO -->
+    <div id="screen2" class="screen">
+        <p class="message">Esta vez quise hacer algo diferente,<br>espero que te guste &lt;3&lt;3&lt;3</p>
+        <button id="btnSiguiente2">Siguiente</button>
+    </div>
+
+    <!-- PANTALLA 3: EL POEMA Y LA MÚSICA -->
+    <div id="screen3" class="screen">
+        <div class="photo-frame">
+            <img src="foto.jpg" alt="Nosotros" onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\'font-size: 14px; opacity: 0.7;\'>[Pon aquí tu foto]</span>'">
+        </div>
+
+        <div class="poem">
+            Elegí algo diferente,
+            no sé cuándo, pero te elegí a ti.
+            Porque ahora amo andar con prisas,
+            sorprendentemente, hacer deberes.
+            Ahora amo despertarme temprano,
+            solo si es a tu lado.
+
+            Elegí algo diferente,
+            no sé por qué, pero elegí ratos amargos.
+            Y aun así mi vida sabe diferente,
+            sabe a que vale la pena.
+            Y aunque a veces me gana el desorden
+            y la rutina me pesa,
+            tú le quitaste lo gris a mis días.
+
+            Elegí algo diferente,
+            más que tu hermoso cuerpo, escogí tu cabecita
+            con sus arrebatos,
+            sus penas y alegrías,
+            desilusiones, incertidumbres, anhelos y miedos.
+
+            Elegí algo diferente.
+            Te elijo a ti para amarte,
+            te elijo a ti para que me ames,
+            te elijo a ti para crecer, conocer y vivir.
+            Te elegí ayer, te elijo hoy y te elegiré siempre.
+            Eres diferente, eres para mí. 
+            Te amo. &lt;3
+        </div>
+
+        <audio id="miMusica" loop>
+            <source src="cancion.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script>
+        // CONFIGURACIÓN DE LA FECHA (Formato: Año-Mes-DíaTHora:Minuto:Segundo)
+        // Está configurado para el 10 de octubre de 2026 a las 00:00:00
+        const fechaObjetivo = new Date("2026-10-10T00:00:00").getTime();
+
+        const screen0 = document.getElementById('screen0');
+        const screen1 = document.getElementById('screen1');
+        const screen2 = document.getElementById('screen2');
+        const screen3 = document.getElementById('screen3');
+        const timerElement = document.getElementById('timer');
+
+        // LÓGICA DEL RELOJ
+        const actualizarReloj = setInterval(() => {
+            const ahora = new Date().getTime();
+            const distancia = fechaObjetivo - ahora;
+
+            if (distancia <= 0) {
+                // Si ya llegó la fecha, detenemos el reloj y mostramos la Pantalla 1
+                clearInterval(actualizarReloj);
+                screen0.classList.remove('active');
+                screen1.classList.add('active');
+            } else {
+                // Calculamos tiempo restante
+                const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+                const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+                const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+
+                // Mostramos el tiempo con ceros a la izquierda si es necesario
+                timerElement.innerHTML = 
+                    (dias > 0 ? dias + "d " : "") + 
+                    horas.toString().padStart(2, '0') + "h " + 
+                    minutos.toString().padStart(2, '0') + "m " + 
+                    segundos.toString().padStart(2, '0') + "s";
+            }
+        }, 1000);
+
+
+        // --- LÓGICA DE LOS BOTONES (Igual que antes) ---
+        let intentosNo = 0;
+        const btnSi = document.getElementById('btnSi');
+        const btnNo = document.getElementById('btnNo');
+        const btnGroup = document.getElementById('btnGroup');
+        const msgRespuesta = document.getElementById('msgRespuesta');
+        const btnSiguiente1 = document.getElementById('btnSiguiente1');
+        const btnSiguiente2 = document.getElementById('btnSiguiente2');
+        const miMusica = document.getElementById('miMusica');
+
+        const escaparBoton = () => {
+            intentosNo++;
+            const maxX = window.innerWidth - btnNo.offsetWidth - 20;
+            const maxY = window.innerHeight - btnNo.offsetHeight - 20;
+            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+            
+            btnNo.style.position = 'fixed'; 
+            btnNo.style.left = randomX + 'px';
+            btnNo.style.top = randomY + 'px';
+        };
+
+        btnNo.addEventListener('mouseover', escaparBoton);
+        btnNo.addEventListener('click', escaparBoton); 
+
+        btnSi.addEventListener('click', () => {
+            btnGroup.style.display = 'none';
+            btnNo.style.display = 'none'; 
+            
+            if(intentosNo === 0) {
+                msgRespuesta.innerHTML = "esoo a la primera, yo tambien te amo mensa ❤️";
+            } else {
+                msgRespuesta.innerHTML = "Yo también te amo mensa ❤️<br><span style='font-size:1rem; opacity:0.7;'>(aunque intentaste decir que no)</span>";
+            }
+            
+            msgRespuesta.style.display = 'block';
+            btnSiguiente1.style.display = 'block';
+        });
+
+        btnSiguiente1.addEventListener('click', () => {
+            screen1.classList.remove('active');
+            screen2.classList.add('active');
+        });
+
+        btnSiguiente2.addEventListener('click', () => {
+            screen2.classList.remove('active');
+            screen3.classList.add('active');
+            miMusica.play();
+        });
+    </script>
+</body>
+</html>
